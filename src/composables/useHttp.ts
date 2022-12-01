@@ -1,45 +1,44 @@
 type FetchParams = Parameters<typeof $fetch>
 
 export const useHttp = () => {
+   const config = useRuntimeConfig()
+
    const defaultHeaders = computed<Record<string, string>>(() => ({
       "Content-Type": "application/json",
    }))
 
    const defaultOptions = computed<FetchParams[1]>(() => ({
-      baseURL: "/",
+      baseURL: config.public.API_BASE_URL,
    }))
 
-   async function get<T>(url: string, options?: FetchParams[1]) {
+   async function fetch<T>(...args: FetchParams) {
       let error = null
-      const response = await $fetch<T>(url, {
-         method: "GET",
-         ...defaultOptions,
-         ...options,
+      const response = await $fetch<T>(args[0], {
+         ...defaultOptions.value,
+         ...args[1],
          headers: {
             ...defaultHeaders.value,
-            ...options?.headers,
+            ...args[1]?.headers,
          },
       }).catch((err) => {
          error = err
       })
-      return { data: response, error }
+      return { data: response as T, error }
    }
 
-   async function post<T>(url: string, body: Record<string, any>, options?: FetchParams[1]) {
-      let error = null
-      const response = await $fetch<T>(url, {
+   function get<T>(url: string, options?: FetchParams[1]) {
+      return fetch<T>(url, {
+         method: "GET",
+         ...options,
+      })
+   }
+
+   function post<T>(url: string, body: Record<string, any>, options?: FetchParams[1]) {
+      return fetch<T>(url, {
          method: "POST",
          body,
-         ...defaultOptions,
          ...options,
-         headers: {
-            ...defaultHeaders.value,
-            ...options?.headers,
-         },
-      }).catch((err) => {
-         error = err
       })
-      return { data: response, error }
    }
 
    return {

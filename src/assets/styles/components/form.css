@@ -1,0 +1,5 @@
+@layer components {
+   .form-control {
+      @apply block rounded-lg border border-gray-200 shadow-sm focus:border-gray-500 focus:ring-gray-500;
+   }
+}

@@ -1,19 +1,67 @@
 <template>
-   <div>
+   <div class="mx-auto max-w-7xl p-4">
       Index page
-      <button class="px-4 py-2 font-semibold text-sm text-white rounded-full shadow-sm bg-primary">Hello</button>
+      {{ $t("Hello") }}
+      <div class="my-2">
+         <input class="form-control mb-2 w-full" type="text" />
+         <select class="form-control w-full">
+            <option value="1">Option 1</option>
+            <option value="2">Option 1</option>
+            <option value="3">Option 1</option>
+         </select>
+
+         <button
+            type="button"
+            @click="showToast"
+            class="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+         >
+            Show Notification
+         </button>
+      </div>
+      <SharedDialog :title="'Payment successful'">
+         <template #activator="{ open }">
+            <button
+               type="button"
+               @click="open"
+               class="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            >
+               Open dialog
+            </button>
+         </template>
+         <template #default="{ close }">
+            <div class="mt-2">
+               <p class="text-sm text-gray-500">
+                  Your payment has been successfully submitted. We’ve sent you an email with all of the details of your
+                  order.
+               </p>
+            </div>
+
+            <div class="mt-4">
+               <button
+                  type="button"
+                  class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  @click="close"
+               >
+                  Got it, thanks!
+               </button>
+            </div>
+         </template>
+      </SharedDialog>
    </div>
 </template>
 
 <script lang="ts" setup>
-interface User {
-   id: number
+const toast = useToast()
+const { getUser } = useUserRepository()
+
+function showToast() {
+   // Use it!
+   toast("I'm a toast!")
 }
-const { get } = useHttp()
 
 onMounted(() => {
-   get<User>("https://api.github.com/users/baodtg").then((data) => {
-      console.log(data)
+   getUser("baodtg").then(({ data: user }) => {
+      console.log(user)
    })
 })
 </script>

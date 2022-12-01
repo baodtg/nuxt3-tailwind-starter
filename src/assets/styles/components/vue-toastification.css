@@ -1,0 +1,10 @@
+@import "vue-toastification/dist/index.css";
+
+.Vue-Toastification__fade-leave-active,
+.Vue-Toastification__fade-enter-active {
+   animation-duration: 400ms;
+}
+
+.Vue-Toastification__fade-move {
+   transition-duration: 200ms;
+}
