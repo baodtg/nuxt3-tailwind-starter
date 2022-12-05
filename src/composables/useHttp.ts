@@ -12,7 +12,7 @@ export const useHttp = () => {
    }))
 
    async function fetch<T>(...args: FetchParams) {
-      let error = null
+      let error: any = null
       const response = await $fetch<T>(args[0], {
          ...defaultOptions.value,
          ...args[1],

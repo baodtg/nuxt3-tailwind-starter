@@ -1,5 +1,3 @@
-import svgLoader from "vite-svg-loader"
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
    runtimeConfig: {
@@ -32,7 +30,7 @@ export default defineNuxtConfig({
       ],
    },
    // Modules
-   modules: ["@nuxtjs/tailwindcss", "@nuxtjs/i18n"],
+   modules: ["@nuxtjs/tailwindcss", "@nuxtjs/i18n", "nuxt-icons"],
    tailwindcss: {
       cssPath: "~/assets/styles/main.css",
       viewer: false,
@@ -49,8 +47,5 @@ export default defineNuxtConfig({
       lazy: true,
       langDir: "langs",
       defaultLocale: "en",
-   },
-   vite: {
-      plugins: [svgLoader()],
    },
 })
